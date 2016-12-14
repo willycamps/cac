@@ -17,11 +17,11 @@ public class DBConnection
 public static Connection createConnection()
  {
     Connection con = null;
-    String url = "jdbc:mysql://localhost:3306/ravi"; 
+    String url = "jdbc:mysql://localhost:3306/cac"; 
    //for SQL and oracle or any other db server this url differs. 
     //where ravi is the database name and 3306 is the port where mysql is running
     String username = "root"; //username of database user
-    String password = "root"; //password
+    String password = ""; //password
 
     try
      {
@@ -35,6 +35,8 @@ public static Connection createConnection()
         }
 
        con = DriverManager.getConnection(url, username, password);
+       
+     
     }
     catch (Exception e)
     {
