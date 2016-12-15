@@ -12,9 +12,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import Model.DBConnection;
 import View.PanelControl;
-import java.sql.Connection;
+
 
 /**
  *
@@ -61,6 +60,7 @@ public class Login extends Application
         primaryStage.setTitle("Campos Arquitectura Control (CAC)");
         primaryStage.setScene(scene);
         primaryStage.show();
+        
     }
 
     /**

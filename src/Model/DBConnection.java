@@ -14,7 +14,7 @@ import java.sql.Connection;
  */
 public class DBConnection 
 {
-public static Connection createConnection()
+public Connection createConnection()
  {
     Connection con = null;
     String url = "jdbc:mysql://localhost:3306/cac"; 
