@@ -5,6 +5,7 @@
  */
 package Model;
 import java.sql.*;
+import javax.swing.JOptionPane;
 
 /**
  * @author W. Estuardo
@@ -29,7 +30,10 @@ public class GestionModel
         } 
         catch (Exception er) 
         {
+            JOptionPane.showMessageDialog(null, er.toString(), "Error",
+                                    JOptionPane.ERROR_MESSAGE);
             return false;
+            
         }
      }
      

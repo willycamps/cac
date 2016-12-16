@@ -7,33 +7,41 @@ package Controller;
 
 import View.*;
 import Model.*;
-
+import javax.swing.JOptionPane;
 /**
  * @author W. Estuardo
  */
 public class GestionController 
 {
     GestionModel model = new GestionModel();
-   public boolean create(Integer _id, String name, Double price, String comment) 
-     {
-         
+   public boolean create(String type, String print, Double price, String comment) 
+     {         
         try 
         {
-            
-            
-            //return model.writeData(message);
-            
+            String name = type+" "+print;
+            model.create(name, price, comment);                        
+            System.out.println("Sucessful CREATE");
             return true;
         } 
         catch (Exception er) 
-        {
-            return false;
+        {             
+            System.out.println("Failed CREATE");
+            return false;            
         }
     } 
     
     public void read()
     {
-        model.read();
+         try 
+        {
+            model.read();
+        } 
+        catch (Exception er) 
+        {
+                         
+            
+        }
+        
     }
     
     

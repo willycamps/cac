@@ -35,16 +35,7 @@ public class Login extends Application
             
             @Override
             public void handle(ActionEvent event) 
-            {
-                //System.out.println("Hello World!");
-                //Connection con = null;
-                //con = DBConnection.createConnection(); //establishing connection
-                
-                /*if(con !=null)
-                {
-                    System.out.println("It works!");
-                }*/
-                
+            {                             
                 PanelControl cp = new PanelControl();
                 cp.setVisible(true);
                 primaryStage.hide();
