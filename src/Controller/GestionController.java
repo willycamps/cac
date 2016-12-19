@@ -5,15 +5,16 @@
  */
 package Controller;
 
-import View.*;
 import Model.*;
-import javax.swing.JOptionPane;
+import javax.swing.table.*;
 /**
  * @author W. Estuardo
  */
 public class GestionController 
 {
-    GestionModel model = new GestionModel();
+   GestionModel model = new GestionModel();
+   DefaultTableModel model1 = new DefaultTableModel();
+   
    public boolean create(String type, String print, Double price, String comment) 
      {         
         try 
@@ -30,18 +31,19 @@ public class GestionController
         }
     } 
     
-    public void read()
+    public DefaultTableModel read()
     {
          try 
         {
-            model.read();
+            model1 = model.read();
+            
         } 
         catch (Exception er) 
         {
-                         
-            
+                                     
         }
-        
+         
+         return model1;        
     }
     
     
