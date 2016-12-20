@@ -7,7 +7,10 @@ package View;
 import Controller.*;
 import javax.swing.JTable;
 import java.awt.*;
+import java.awt.event.*;
+import java.text.NumberFormat;
 import javax.swing.*;
+import javax.swing.JFormattedTextField;
 
 
 /**
@@ -19,6 +22,10 @@ public class JIntGestion extends javax.swing.JInternalFrame {
     /**
      * Creates new form CACGestion
      */
+    private double amount;
+    private NumberFormat amountFormat;
+    private JFormattedTextField amountField;
+    
     GestionController GC = new GestionController();
         
     public JIntGestion() 
@@ -26,6 +33,13 @@ public class JIntGestion extends javax.swing.JInternalFrame {
         initComponents();
         this.requestFocus();
         jTable1.removeAll();
+        setUpFormats();
+        
+         //Create the text fields and set them up.
+        amountField = new JFormattedTextField(amountFormat);
+        amountField.setValue(new Double(amount));
+        amountField.setColumns(10);
+        //amountField.addPropertyChangeListener("value", this);
         
         //jTable1 = new JTable(GC.read());
 
@@ -37,10 +51,70 @@ public class JIntGestion extends javax.swing.JInternalFrame {
         JPanel buttonPanel = new JPanel();
         getContentPane().add( buttonPanel, BorderLayout.SOUTH );
         //this.jTable1 = Controller.GestionController
-        System.out.println(jTable1.getModel()); 
+        System.out.println(jTable1.getModel());         
+    }
+    
+    /**
+     *
+     */
+   
+    public void validate_()
+    {
+        try
+        {
+            String texto=jTxtTipo.getText();
+            //How to remove leading and trailing whitespace from the string 
+            String txtTipo = texto.replaceAll("^\\s+", "").replaceAll("\\s+$", "");
+            //System.out.println("no spaces:" + txt);       
+
+            amountField = new JFormattedTextField(amountFormat);
+            amountField.setValue(new Double(jTxtPrecio.getText()));
+            amountField.setColumns(10);
+            amount = ((Number)amountField.getValue()).doubleValue();
+
+           //System.out.println("Amount:" + amount);       
+        }
+        catch(Exception e)
+        {
+            
+        }
+    }
+    
+     private void setUpFormats() 
+     {
+        amountFormat = NumberFormat.getNumberInstance();        
+        amountFormat.setMinimumIntegerDigits(1);
+        amountFormat.setMaximumIntegerDigits(3);
+        amountFormat.setMaximumFractionDigits(0);
         
     }
 
+    private void valid()
+    {
+        try
+        {           
+            if("".equals(jTxtTipo.getText()))
+            {
+                JOptionPane.showMessageDialog(null, " 'Tipo' no debe estar en blanco", "Error",
+                                    JOptionPane.ERROR_MESSAGE);                
+                
+            }else if("".equals(jTxtImpresion.getText()))
+            {
+                JOptionPane.showMessageDialog(null, " 'Impresion' no debe estar en blanco", "Error",
+                                    JOptionPane.ERROR_MESSAGE);
+                
+            }else if("".equals(jTxtPrecio.getText()))
+            {
+                JOptionPane.showMessageDialog(null, " 'Precio' no debe estar en blanco", "Error",
+                                    JOptionPane.ERROR_MESSAGE);
+            }                          
+        }
+        catch(Exception e)
+        {
+        }    
+    }
+      
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -57,9 +131,9 @@ public class JIntGestion extends javax.swing.JInternalFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        jTxtTipo = new javax.swing.JTextField();
+        jTxtImpresion = new javax.swing.JTextField();
+        jTxtPrecio = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -86,10 +160,17 @@ public class JIntGestion extends javax.swing.JInternalFrame {
         label4.setText("Comentario");
 
         jButton1.setText("Agregar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Modificar");
 
         jButton3.setText("Borrar");
+
+        jTxtPrecio.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -123,9 +204,9 @@ public class JIntGestion extends javax.swing.JInternalFrame {
                         .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTxtTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTxtImpresion, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTxtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 536, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton1)
@@ -146,13 +227,13 @@ public class JIntGestion extends javax.swing.JInternalFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jTxtTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(22, 22, 22)
                                 .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTxtImpresion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(26, 26, 26)
                         .addComponent(label3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTxtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(label4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -170,6 +251,11 @@ public class JIntGestion extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:        
+        valid();
+    }//GEN-LAST:event_jButton1ActionPerformed
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -179,9 +265,9 @@ public class JIntGestion extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTxtImpresion;
+    private javax.swing.JTextField jTxtPrecio;
+    private javax.swing.JTextField jTxtTipo;
     private java.awt.Label label1;
     private java.awt.Label label2;
     private java.awt.Label label3;

@@ -15,8 +15,7 @@ import javax.swing.table.*;
 
 public class GestionModel 
 {
-    
-        
+            
     DBConnection model = new DBConnection();    
     Connection con = null;
     
@@ -28,7 +27,13 @@ public class GestionModel
              // create a Statement from the connection
             Statement statement = con.createStatement();
             // insert the data
-            statement.executeUpdate("INSERT INTO type VALUES ("+ name + ","+price+","+comment);
+            
+            int rowsInserted = statement.executeUpdate("INSERT INTO type VALUES ("+ name + ","+price+","+comment);
+            if (rowsInserted > 0) 
+            {                
+                JOptionPane.showMessageDialog(null, "Nuevo registro ingresado exitosamente", "Añadir",
+                                    JOptionPane.INFORMATION_MESSAGE);
+            }
             return true;
         } 
         catch (Exception er) 

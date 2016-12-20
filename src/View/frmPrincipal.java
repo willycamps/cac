@@ -74,7 +74,8 @@ public class frmPrincipal extends JFrame
     //React to menu selections.
     public void actionPerformed(ActionEvent e) 
     {
-        if ("new".equals(e.getActionCommand())) { //new
+        if ("new".equals(e.getActionCommand())) 
+        { //new
             createFrame();
         } else { //quit
             quit();
@@ -87,6 +88,7 @@ public class frmPrincipal extends JFrame
         JIntGestion frame = new JIntGestion();
         
         Dimension desktopSize = desktop.getSize();
+        
         Dimension jInternalFrameSize = frame.getSize();
         frame.setLocation((desktopSize.width - jInternalFrameSize.width)/2,
         (desktopSize.height- jInternalFrameSize.height)/2);
