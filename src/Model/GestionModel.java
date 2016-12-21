@@ -18,6 +18,7 @@ public class GestionModel
             
     DBConnection model = new DBConnection();    
     Connection con = null;
+    String Sql;
     
      public boolean create(String name, Double price, String comment) 
      {
@@ -27,21 +28,21 @@ public class GestionModel
              // create a Statement from the connection
             Statement statement = con.createStatement();
             // insert the data
-            
-            int rowsInserted = statement.executeUpdate("INSERT INTO type VALUES ("+ name + ","+price+","+comment);
+            Sql="INSERT INTO type(name,price,comment) VALUES ('"+ name + "',"+price+","+comment+")";
+            int rowsInserted = statement.executeUpdate(Sql);
             if (rowsInserted > 0) 
             {                
                 JOptionPane.showMessageDialog(null, "Nuevo registro ingresado exitosamente", "Añadir",
                                     JOptionPane.INFORMATION_MESSAGE);
+                return true;
             }
-            return true;
+            return false;
         } 
         catch (Exception er) 
         {
             JOptionPane.showMessageDialog(null, er.toString(), "Error",
                                     JOptionPane.ERROR_MESSAGE);
-            return false;
-            
+            return false;            
         }
      }
      
@@ -61,66 +62,10 @@ public class GestionModel
             
             String sql = "SELECT _idtype, name, price, comment FROM type";
             ResultSet rs = stmt.executeQuery(sql);
-            //STEP 5: Extract data from result set
-           /* while(rs.next())
-            {
-                //Retrieve by column name
-                int id  = rs.getInt("_idtype");
-                String Name = rs.getString("name");
-                Double Price = rs.getDouble("price");
-                String Comment = rs.getString("comment");
-
-                //Display values
-                System.out.print("ID: " + id);
-                System.out.print(", Name: " + Name);
-                System.out.print(", Price: " + Price);
-                System.out.println(", Comment: " + Comment);
-            }
-            */
             
-            ResultSetMetaData md = rs.getMetaData();
-            int columns = md.getColumnCount();
-
-            //  Get column names
-
-            for (int i = 1; i <= columns; i++)
-            {
-                columnNames.addElement( md.getColumnName(i) );
-            }
-
-            //  Get row data
-
-            while (rs.next())
-            {
-                Vector<Object> row = new Vector<Object>(columns);
-
-                for (int i = 1; i <= columns; i++)
-                {
-                    row.addElement( rs.getObject(i) );
-                }
-
-                data.addElement( row );
-            }
-            
-            model1 = new DefaultTableModel(data, columnNames)
-            {
-                @Override
-                public Class getColumnClass(int column)
-                {
-                    for (int row = 0; row < getRowCount(); row++)
-                    {
-                        Object o = getValueAt(row, column);
-
-                        if (o != null)
-                        {
-                            return o.getClass();
-                        }
-                    }
-
-                    return Object.class;
-                }
-            };
-            
+            model1=buildTableModel(rs);
+            model1.fireTableDataChanged();
+          
             rs.close();
             stmt.close();                        
             con.close();                        
@@ -134,7 +79,65 @@ public class GestionModel
          return model1;
      }       
              
+    public static DefaultTableModel buildTableModel(ResultSet rs)
+        throws SQLException 
+     {
+
+        ResultSetMetaData metaData = rs.getMetaData();
+        // names of columns
+        Vector<String> columnNames = new Vector<String>();
+        int columnCount = metaData.getColumnCount();
+        for (int column = 1; column <= columnCount; column++) {
+            columnNames.add(metaData.getColumnName(column));
+        }
+
+        // data of the table
+        Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+        while (rs.next()) {
+            Vector<Object> vector = new Vector<Object>();
+            for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
+                vector.add(rs.getObject(columnIndex));
+            }
+            data.add(vector);
+        }
+        return new DefaultTableModel(data, columnNames);
+    }
      
+    public boolean update(Integer _idType, String name, Double price, String comment)
+    {
+        try 
+        {
+            con = model.createConnection();                        
+            PreparedStatement preparedStatement = null;
+            String Sql = "UPDATE type SET name = ? " + ", price= ? "+ ", comment = ? "
+				                  + " WHERE _idtype = ?";
+            
+            preparedStatement = con.prepareStatement(Sql);
+            
+			preparedStatement.setString(1, name);
+                        preparedStatement.setDouble(2, price);
+                        preparedStatement.setString(3, comment);
+			preparedStatement.setInt(4, _idType);
+
+			// execute update SQL stetement			            
+            int rowsUpdated = preparedStatement.executeUpdate();
+            
+            if (rowsUpdated > 0) 
+            {                
+                JOptionPane.showMessageDialog(null, "Registro actualizado exitosamente", "Actualizar",
+                                    JOptionPane.INFORMATION_MESSAGE);
+                return true;
+            }
+            return false;
+        } 
+        catch (Exception er) 
+        {
+            JOptionPane.showMessageDialog(null, er.toString(), "Error",
+                                    JOptionPane.ERROR_MESSAGE);
+            return false;            
+        }
+    
+    }
     
     
 }

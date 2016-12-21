@@ -13,39 +13,69 @@ import javax.swing.table.*;
 public class GestionController 
 {
    GestionModel model = new GestionModel();
-   DefaultTableModel model1 = new DefaultTableModel();
+   DefaultTableModel model1 = null;
    
    public boolean create(String type, String print, Double price, String comment) 
-     {         
+    {         
         try 
         {
             String name = type+" "+print;
-            model.create(name, price, comment);                        
-            System.out.println("Sucessful CREATE");
-            return true;
+            String comment_= null;
+            if(!comment.isEmpty())
+            {
+                comment_="'"+ comment+"'";
+            }
+            if (model.create(name, price, comment_))
+            {
+                return true;
+            }            
+            return false;   
         } 
         catch (Exception er) 
-        {             
-            System.out.println("Failed CREATE");
+        {                         
             return false;            
         }
     } 
     
     public DefaultTableModel read()
     {
-         try 
+        try 
         {
-            model1 = model.read();
-            
+            model1 = model.read();            
         } 
         catch (Exception er) 
         {
                                      
-        }
-         
+        }         
          return model1;        
     }
     
+    public boolean update(Integer _idtype,String type, String print, Double price, String comment)
+    {
+        try 
+        {
+            String name = type+" "+print;
+            String comment_= null;
+            if(!comment.isEmpty())
+            {
+                comment_="'"+ comment+"'";
+            }
+            if (model.update(_idtype,name, price, comment_))
+            {
+                return true;
+            }            
+            return false;   
+        } 
+        catch (Exception er) 
+        {                         
+            return false;            
+        }
+    }
+    
+    public boolean delete()
+    {
+        return false;
+    }
     
     
 }
