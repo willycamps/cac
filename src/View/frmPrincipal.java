@@ -10,6 +10,10 @@ import javax.swing.KeyStroke;
 
 import java.awt.event.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import javax.imageio.ImageIO;
 
 /*
  * InternalFrameDemo.java requires:
@@ -19,10 +23,12 @@ public class frmPrincipal extends JFrame
                                implements ActionListener 
 {
     JDesktopPane desktop;
+    private Image image;
 
     public frmPrincipal() {
+        
         super("Arquitectura Campos - CAC");
-
+try{
         //Make the big window be indented 50 pixels from each edge
         //of the screen.
         int inset = 50;
@@ -39,6 +45,33 @@ public class frmPrincipal extends JFrame
 
         //Make dragging a little faster but perhaps uglier.
         desktop.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
+        
+        
+        
+        
+        /*desktop = new javax.swing.JDesktopPane() 
+        {
+            private Image image;
+            {
+                try {
+                    image = ImageIO.read( new File("C:\\Users\\HP PAVILION\\Desktop\\IT\\Campos Arquitectura - Java IT DataBase\\logo_oficial_jpeg.jpg"));
+                } catch (IOException e) 
+                {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+            }
+        };*/
+    }
+        catch (Exception e) 
+                {
+                    e.printStackTrace();
+                }
     }
 
     protected JMenuBar createMenuBar() 
@@ -46,10 +79,23 @@ public class frmPrincipal extends JFrame
         JMenuBar menuBar = new JMenuBar();
 
         //Set up the lone menu.
-        JMenu menu = new JMenu("Document");
-        menu.setMnemonic(KeyEvent.VK_D);
+        JMenu menu = new JMenu("GESTION");
+        menu.setMnemonic(KeyEvent.VK_G);
         menuBar.add(menu);
 
+        
+        JMenu menu1 = new JMenu("REGISTRO");
+        menu.setMnemonic(KeyEvent.VK_R);
+        menuBar.add(menu1);
+        
+        JMenu menu2 = new JMenu("INFORMES");
+        menu.setMnemonic(KeyEvent.VK_I);
+        menuBar.add(menu2);
+        
+        JMenu menu3 = new JMenu("ABOUT");
+        //menu.setMnemonic(KeyEvent.VK_I);
+        menuBar.add(menu3);
+        
         //Set up the first menu item.
         JMenuItem menuItem = new JMenuItem("New");
         menuItem.setMnemonic(KeyEvent.VK_N);

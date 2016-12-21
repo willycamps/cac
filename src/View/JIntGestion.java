@@ -71,26 +71,25 @@ public class JIntGestion extends javax.swing.JInternalFrame
                 int col = tlbType.columnAtPoint(evt.getPoint());
                 cleanFields();
                 try{
-                if (row >= 0 && col >= 0) 
-                {
-                    //System.out.println("I:" + row + " J:"+col);
-                                                            
-                    String T =tlbType.getValueAt(row, 1).toString();                    
-                    String[] tokens = T.split(" ");
-                    jTxtTipo.setText(tokens[0]);
-                    jTxtImpresion.setText(tokens[1]);
-                    
-                    jTxtPrecio.setText(tlbType.getValueAt(row, 2).toString());
-                    
-                    if (tlbType.getValueAt(row, 3).toString().isEmpty())
+                    if (row >= 0 && col >= 0) 
                     {
-                        jTextArea1.setText("");                                
-                    }else{
-                        jTextArea1.setText(tlbType.getValueAt(row, 3).toString());
+                        
+                        String T =tlbType.getValueAt(row, 1).toString();                    
+                        String[] tokens = T.split(" ");
+                        jTxtTipo.setText(tokens[0]);
+                        jTxtImpresion.setText(tokens[1]);
+
+                        jTxtPrecio.setText(tlbType.getValueAt(row, 2).toString());
+                                                
+
+                        if (tlbType.getValueAt(row, 3).toString().isEmpty())
+                        {
+                            jTextArea1.setText("");                                
+                        }else{
+                            jTextArea1.setText(tlbType.getValueAt(row, 3).toString());
+                        }                                        
                     }
-                    
-                    
-                }
+                
                 }
                 catch(Exception e)
                 {
