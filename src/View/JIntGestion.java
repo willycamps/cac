@@ -5,25 +5,16 @@
  */
 package View;
 import Controller.*;
-import java.awt.*;
 import javax.swing.*;
 import java.text.NumberFormat;
 import javax.swing.JFormattedTextField;
-import java.awt.Point;
-import java.awt.BorderLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.TableModel;
-
-
 
 /**
  *
  * @author W. Estuardo
  */
+
 public class JIntGestion extends javax.swing.JInternalFrame 
 {
 
@@ -34,6 +25,7 @@ public class JIntGestion extends javax.swing.JInternalFrame
     private boolean _valid;
     private NumberFormat amountFormat;
     private JFormattedTextField amountField;
+    private Integer _idtype;
     
     GestionController GC = new GestionController();
         
@@ -56,12 +48,7 @@ public class JIntGestion extends javax.swing.JInternalFrame
         tlbType = new JTable(GC.read());   
         jScrollPane2.setViewportView(tlbType);        
         jScrollPane2.getViewport().add(tlbType, null);        
-        //JScrollPane scrollPane = new JScrollPane( tlbType );        
-        //getContentPane().add( scrollPane );
-        
-        //JPanel buttonPanel = new JPanel();        
-        //getContentPane().add( buttonPanel, BorderLayout.SOUTH );  
-        
+                
         tlbType.addMouseListener(new java.awt.event.MouseAdapter() 
         {
             @Override
@@ -73,10 +60,11 @@ public class JIntGestion extends javax.swing.JInternalFrame
                 try{
                     if (row >= 0 && col >= 0) 
                     {
-                        
+                        _idtype = (Integer) tlbType.getValueAt(row, 0);                    
                         String T =tlbType.getValueAt(row, 1).toString();                    
                         String[] tokens = T.split(" ");
                         jTxtTipo.setText(tokens[0]);
+                        
                         jTxtImpresion.setText(tokens[1]);
 
                         jTxtPrecio.setText(tlbType.getValueAt(row, 2).toString());
@@ -88,13 +76,11 @@ public class JIntGestion extends javax.swing.JInternalFrame
                         }else{
                             jTextArea1.setText(tlbType.getValueAt(row, 3).toString());
                         }                                        
-                    }
-                
+                    }                
                 }
                 catch(Exception e)
                 {
-                      JOptionPane.showMessageDialog(null, e.toString(), "Error",
-                                    JOptionPane.ERROR_MESSAGE);
+                     
                 
                 }
             }
@@ -112,13 +98,11 @@ public class JIntGestion extends javax.swing.JInternalFrame
             String texto=jTxtTipo.getText();
             //How to remove leading and trailing whitespace from the string 
             String txtTipo = texto.replaceAll("^\\s+", "").replaceAll("\\s+$", "");
-            //System.out.println("no spaces:" + txt);       
-
+           
             amountField = new JFormattedTextField(amountFormat);
             amountField.setValue(new Double(jTxtPrecio.getText()));
             amountField.setColumns(10);
-            amount = ((Number)amountField.getValue()).doubleValue();
-           //System.out.println("Amount:" + amount);       
+            amount = ((Number)amountField.getValue()).doubleValue();                
         }
         catch(Exception e)
         {
@@ -138,7 +122,9 @@ public class JIntGestion extends javax.swing.JInternalFrame
     private void valid()
     {        
         try
-        {                       
+        {   
+            _valid=true;                
+        
             if("".equals(jTxtTipo.getText()))
             {
                 JOptionPane.showMessageDialog(null, " 'Tipo' no debe estar en blanco", "Error",
@@ -157,8 +143,8 @@ public class JIntGestion extends javax.swing.JInternalFrame
                 _valid=false;
             }
             amount = Double.parseDouble(jTxtPrecio.getText());
-            _valid=true;
         }
+        
         catch (NumberFormatException e) 
         {
             JOptionPane.showConfirmDialog(null, "Por favor ingresar solo numeros en la casilla de 'Precio'", "Error", JOptionPane.CANCEL_OPTION);
@@ -235,6 +221,11 @@ public class JIntGestion extends javax.swing.JInternalFrame
         });
 
         jButton2.setText("Modificar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Borrar");
 
@@ -329,6 +320,22 @@ public class JIntGestion extends javax.swing.JInternalFrame
             refreshTable();
         }
     }//GEN-LAST:event_BtnAgregarActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:              
+        valid();
+        if(_valid)
+        {
+            if(GC.update(_idtype,jTxtTipo.getText(), jTxtImpresion.getText(), amount, jTextArea1.getText()))
+            {
+                JOptionPane.showMessageDialog(null, "Datos modificados exitosamente", "Exito",
+                        JOptionPane.INFORMATION_MESSAGE);
+                cleanFields();
+                refreshTable();
+            }
+        
+        }                
+    }//GEN-LAST:event_jButton2ActionPerformed
        
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

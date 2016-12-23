@@ -10,10 +10,6 @@ import javax.swing.KeyStroke;
 
 import java.awt.event.*;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import javax.imageio.ImageIO;
 
 /*
  * InternalFrameDemo.java requires:
@@ -23,8 +19,7 @@ public class frmPrincipal extends JFrame
                                implements ActionListener 
 {
     JDesktopPane desktop;
-    private Image image;
-
+    
     public frmPrincipal() {
         
         super("Arquitectura Campos - CAC");
@@ -82,7 +77,6 @@ try{
         JMenu menu = new JMenu("GESTION");
         menu.setMnemonic(KeyEvent.VK_G);
         menuBar.add(menu);
-
         
         JMenu menu1 = new JMenu("REGISTRO");
         menu.setMnemonic(KeyEvent.VK_R);
