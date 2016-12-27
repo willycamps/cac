@@ -50,6 +50,20 @@ public class GestionController
          return model1;        
     }
     
+    
+    public DefaultTableModel read_search()
+    {
+        try 
+        {
+            model1 = model.read_search();            
+        } 
+        catch (Exception er) 
+        {
+                                     
+        }         
+         return model1;        
+    }
+    
     public boolean update(Integer _idtype,String type, String print, Double price, String comment)
     {
         try 

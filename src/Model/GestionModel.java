@@ -46,13 +46,41 @@ public class GestionModel
         }
      }
      
-     public DefaultTableModel read ()
+     public DefaultTableModel read_search ()
      {
         Statement stmt = null;
-        DefaultTableModel model1 = null;
+        DefaultTableModel model1 = null;                
         
-        Vector<Object> columnNames = new Vector<Object>();
-        Vector<Object> data = new Vector<Object>();
+        try 
+        {
+            con = model.createConnection();
+            // create a Statement from the connection
+            stmt = con.createStatement();
+            
+            String sql = "SELECT name, price FROM type";
+            ResultSet rs = stmt.executeQuery(sql);
+            
+            model1=buildTableModel(rs);
+            model1.fireTableDataChanged();
+          
+            rs.close();
+            stmt.close();                        
+            con.close();                        
+            
+        } 
+        catch (Exception er) 
+        {
+            //return false;
+            System.out.print("PROBLEM!!!: "+er.getMessage());
+        }                   
+         return model1;
+     }       
+             
+     
+      public DefaultTableModel read ()
+     {
+        Statement stmt = null;
+        DefaultTableModel model1 = null;                
         
         try 
         {
@@ -78,7 +106,7 @@ public class GestionModel
         }                   
          return model1;
      }       
-             
+     
     public static DefaultTableModel buildTableModel(ResultSet rs)
         throws SQLException 
      {

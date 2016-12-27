@@ -11,6 +11,7 @@ import javax.swing.KeyStroke;
 import java.awt.event.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyVetoException;
 import javax.swing.ImageIcon;
 
 /*
@@ -86,10 +87,10 @@ public class frmPrincipal extends JFrame
         menuBar.add(menu3);
         
         //Set up the first menu item.
-        JMenuItem menuItem = new JMenuItem("New");
-        menuItem.setMnemonic(KeyEvent.VK_N);
+        JMenuItem menuItem = new JMenuItem("Gestion");
+        menuItem.setMnemonic(KeyEvent.VK_G);
         menuItem.setAccelerator(KeyStroke.getKeyStroke(
-                KeyEvent.VK_N, ActionEvent.ALT_MASK));
+                KeyEvent.VK_G, ActionEvent.ALT_MASK));
         menuItem.setActionCommand("new");
         menuItem.addActionListener(this);
         menu.add(menuItem);
@@ -103,18 +104,41 @@ public class frmPrincipal extends JFrame
         menuItem.addActionListener(this);
         menu.add(menuItem);
 
+        
+         //Set up the first menu item.
+        JMenuItem menuItem1 = new JMenuItem("Impresiones");
+        menuItem1.setMnemonic(KeyEvent.VK_I);
+        menuItem1.setAccelerator(KeyStroke.getKeyStroke(
+                KeyEvent.VK_I, ActionEvent.ALT_MASK));
+        menuItem1.setActionCommand("impresiones");
+        menuItem1.addActionListener(this);
+        menu1.add(menuItem1);
+        
+        
+        
         return menuBar;
     }
 
     //React to menu selections.
     public void actionPerformed(ActionEvent e) 
     {
-        if ("new".equals(e.getActionCommand())) 
-        { //new
-            createFrame();
-        } else { //quit
-            quit();
+        if (null != e.getActionCommand()) 
+        switch (e.getActionCommand()) 
+        {
+            case "new":
+                //new
+                createFrame();
+                break;
+            case "impresiones":
+                createJImpresionFrame();
+                break;
+            default:
+                //quit
+                
+                quit();
+                break;
         }
+        
     }
 
     //Create a new internal frame.
@@ -133,6 +157,25 @@ public class frmPrincipal extends JFrame
         try {
             frame.setSelected(true);
         } catch (java.beans.PropertyVetoException e) {}
+    }
+    
+    //Create a new internal frame.
+    protected void createJImpresionFrame() 
+    {
+         JIntImpresion frame = new JIntImpresion();
+        
+        Dimension desktopSize = desktop.getSize();
+        
+        Dimension jInternalFrameSize = frame.getSize();
+        frame.setLocation((desktopSize.width - jInternalFrameSize.width)/2,
+        (desktopSize.height- jInternalFrameSize.height)/2);
+        
+        frame.setVisible(true); //necessary as of 1.3
+        desktop.add(frame);
+        try {
+            frame.setSelected(true);
+        } catch (java.beans.PropertyVetoException e) {}
+        
     }
 
     //Quit the application.

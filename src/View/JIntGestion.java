@@ -198,6 +198,7 @@ public class JIntGestion extends javax.swing.JInternalFrame
         setTitle("Gestion CAC");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setMinimumSize(new java.awt.Dimension(190, 134));
+        setName(""); // NOI18N
         setPreferredSize(new java.awt.Dimension(768, 548));
         setVerifyInputWhenFocusTarget(false);
 
