@@ -10,6 +10,8 @@ import javax.swing.KeyStroke;
 
 import java.awt.event.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
 
 /*
  * InternalFrameDemo.java requires:
@@ -19,50 +21,43 @@ public class frmPrincipal extends JFrame
                                implements ActionListener 
 {
     JDesktopPane desktop;
+    private BufferedImage img;
+
     
     public frmPrincipal() {
         
-        super("Arquitectura Campos - CAC");
-try{
-        //Make the big window be indented 50 pixels from each edge
-        //of the screen.
-        int inset = 50;
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds(inset, inset,
-                  screenSize.width  - inset*2,
-                  screenSize.height - inset*2);
-
-        //Set up the GUI.
-        desktop = new JDesktopPane(); //a specialized layered pane
-                
-        setContentPane(desktop);
-        setJMenuBar(createMenuBar());
-
-        //Make dragging a little faster but perhaps uglier.
-        desktop.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
-        
-        
-        
-        
-        /*desktop = new javax.swing.JDesktopPane() 
+        super("CAMPOS ARQUITECTURA - CAC");
+        try
         {
-            private Image image;
-            {
-                try {
-                    image = ImageIO.read( new File("C:\\Users\\HP PAVILION\\Desktop\\IT\\Campos Arquitectura - Java IT DataBase\\logo_oficial_jpeg.jpg"));
-                } catch (IOException e) 
+            //Make the big window be indented 50 pixels from each edge
+            //of the screen.
+            int inset = 50;
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            setBounds(inset, inset,
+                      screenSize.width  - inset*2,
+                      screenSize.height - inset*2);
+                                
+        ImageIcon icon = new ImageIcon("images/Watermark.JPG");
+        Image image = icon.getImage();
+        
+        //Set up the GUI.
+        desktop = new JDesktopPane()
                 {
-                    e.printStackTrace();
-                }
-            }
+                @Override
+                protected void paintComponent(Graphics grphcs) 
+                {
+                    super.paintComponent(grphcs);
+                    grphcs.drawImage(image, 0, 0, getWidth(), getHeight(),this);
+                }                    
+        }; //a specialized layered pane
 
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
-            }
-        };*/
-    }
+            setContentPane(desktop);
+            setJMenuBar(createMenuBar());
+
+            //Make dragging a little faster but perhaps uglier.
+            desktop.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);                    
+        }
+        
         catch (Exception e) 
                 {
                     e.printStackTrace();
@@ -74,19 +69,19 @@ try{
         JMenuBar menuBar = new JMenuBar();
 
         //Set up the lone menu.
-        JMenu menu = new JMenu("GESTION");
+        JMenu menu = new JMenu("Gestion");
         menu.setMnemonic(KeyEvent.VK_G);
         menuBar.add(menu);
         
-        JMenu menu1 = new JMenu("REGISTRO");
+        JMenu menu1 = new JMenu("Registro");
         menu.setMnemonic(KeyEvent.VK_R);
         menuBar.add(menu1);
         
-        JMenu menu2 = new JMenu("INFORMES");
+        JMenu menu2 = new JMenu("Informes");
         menu.setMnemonic(KeyEvent.VK_I);
         menuBar.add(menu2);
         
-        JMenu menu3 = new JMenu("ABOUT");
+        JMenu menu3 = new JMenu("About");
         //menu.setMnemonic(KeyEvent.VK_I);
         menuBar.add(menu3);
         

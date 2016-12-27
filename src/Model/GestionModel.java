@@ -139,5 +139,34 @@ public class GestionModel
     
     }
     
-    
+    public boolean delete(Integer _idType)
+    {
+         try 
+        {
+            con = model.createConnection();                        
+            PreparedStatement preparedStatement = null;
+            String Sql = "DELETE from type " + " WHERE _idtype = ?";
+            
+            preparedStatement = con.prepareStatement(Sql);
+            preparedStatement.setInt(1, _idType);
+
+            // execute update SQL stetement			            
+            int rowsUpdated = preparedStatement.executeUpdate();
+            
+            if (rowsUpdated > 0) 
+            {                
+                JOptionPane.showMessageDialog(null, "Registro eliminado exitosamente", "Eliminar",
+                                    JOptionPane.INFORMATION_MESSAGE);
+                return true;
+            }
+            return false;
+        } 
+        catch (Exception er) 
+        {
+            JOptionPane.showMessageDialog(null, er.toString(), "Error",
+                                    JOptionPane.ERROR_MESSAGE);
+            return false;            
+        }
+        
+    }
 }

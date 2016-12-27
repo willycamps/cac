@@ -72,8 +72,19 @@ public class GestionController
         }
     }
     
-    public boolean delete()
+    public boolean delete(Integer _idtype)
     {
+     try
+     {
+         if(model.delete(_idtype))
+         {
+             return true;
+         }
+        return false;   
+     }
+     catch(Exception Ex)
+     {
+     }
         return false;
     }
     

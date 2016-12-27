@@ -25,7 +25,7 @@ public class JIntGestion extends javax.swing.JInternalFrame
     private boolean _valid;
     private NumberFormat amountFormat;
     private JFormattedTextField amountField;
-    private Integer _idtype;
+    private Integer _idtype=-1;
     
     GestionController GC = new GestionController();
         
@@ -228,6 +228,11 @@ public class JIntGestion extends javax.swing.JInternalFrame
         });
 
         jButton3.setText("Borrar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jTxtPrecio.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
 
@@ -336,6 +341,29 @@ public class JIntGestion extends javax.swing.JInternalFrame
         
         }                
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        
+        if (_idtype!=-1)
+        {                       
+            int n = JOptionPane.showConfirmDialog(
+                            null, "Desea Eliminar idType:"+_idtype+ " Nombre: "+jTxtTipo.getText()+" "+jTxtImpresion.getText()+ " ?", "Eliminar?",                            
+                            JOptionPane.YES_NO_OPTION);
+            
+                if (n == JOptionPane.YES_OPTION) 
+                {
+                    GC.delete(_idtype);
+                    cleanFields();
+                    refreshTable();
+                }                  
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Seleccione un elemento a eliminar", "Eliminar",
+                        JOptionPane.INFORMATION_MESSAGE);
+        }                
+    }//GEN-LAST:event_jButton3ActionPerformed
        
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -355,3 +383,4 @@ public class JIntGestion extends javax.swing.JInternalFrame
     public javax.swing.JTable tlbType;
     // End of variables declaration//GEN-END:variables
 }
+
