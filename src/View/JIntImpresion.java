@@ -23,12 +23,49 @@ public class JIntImpresion extends javax.swing.JInternalFrame {
      * Creates new form JIntImpresion
      */
     GestionController GC = new GestionController();
+       
+    
+    private void AmountEnter(java.awt.event.MouseEvent evt)
+    {
+        int row = JTableBuscar.rowAtPoint(evt.getPoint());
+        int col = JTableBuscar.columnAtPoint(evt.getPoint());
+        Integer _idtype=-1;
+        
+        try
+        {
+            if (row >= 0 && col >= 0) 
+            {
+                _idtype = (Integer) JTableBuscar.getValueAt(row, 0);                   
+                
+                String cantidad = JOptionPane.showInputDialog( "CANTIDAD DE IMPRESIONES:");
+                if (cantidad !=null)
+                {
+                    int amount = Integer.parseInt(cantidad.trim());
+                    if (amount > 0)
+                    {
+                        JOptionPane.showMessageDialog(null, "Cantidad: "+ amount, "Information", JOptionPane.INFORMATION_MESSAGE);
+                    
+                    } else if(amount ==0)
+                    {
+                        JOptionPane.showMessageDialog(null, "Ingrese una cantidad mayor a CERO", "Error", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }                                
+            }                
+        }
+       catch (NumberFormatException nfe) {
+            System.err.println(nfe.getMessage());
+        }
+    
+    }
     
     public JIntImpresion() 
     {
         initComponents();
         JTableBuscar.setRowSorter(null);
-        //TableRowSorter sorter = new TableRowSorter<TableModel>(model);
+        
+        JTableBuscar.getColumnModel().getColumn(0).setMinWidth(0);
+        JTableBuscar.getColumnModel().getColumn(0).setMaxWidth(0);
+        
         
        // JTableBuscar.setRowSorter(sorter);
         
@@ -63,7 +100,18 @@ public class JIntImpresion extends javax.swing.JInternalFrame {
                   //      JOptionPane.INFORMATION_MESSAGE);
             }
 
-          });        
+          });     
+        
+         JTableBuscar.addMouseListener(new java.awt.event.MouseAdapter() 
+        {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) 
+            {
+               AmountEnter(evt);
+            }
+        });    
+        
+        
     }
 
     /**
@@ -88,7 +136,7 @@ public class JIntImpresion extends javax.swing.JInternalFrame {
 
         JTableBuscar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         JTableBuscar.setModel(GC.read_search());
-        JTableBuscar.setColumnSelectionAllowed(true);
+        JTableBuscar.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         JTableBuscar.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(JTableBuscar);
         JTableBuscar.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);

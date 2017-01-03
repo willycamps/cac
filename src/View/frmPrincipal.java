@@ -113,8 +113,7 @@ public class frmPrincipal extends JFrame
         menuItem1.setActionCommand("impresiones");
         menuItem1.addActionListener(this);
         menu1.add(menuItem1);
-        
-        
+                
         
         return menuBar;
     }
@@ -162,8 +161,7 @@ public class frmPrincipal extends JFrame
     //Create a new internal frame.
     protected void createJImpresionFrame() 
     {
-         JIntImpresion frame = new JIntImpresion();
-        
+        JIntImpresion frame = new JIntImpresion();        
         Dimension desktopSize = desktop.getSize();
         
         Dimension jInternalFrameSize = frame.getSize();

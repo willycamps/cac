@@ -57,7 +57,7 @@ public class GestionModel
             // create a Statement from the connection
             stmt = con.createStatement();
             
-            String sql = "SELECT name, price FROM type";
+            String sql = "SELECT _idtype, name, price FROM type";
             ResultSet rs = stmt.executeQuery(sql);
             
             model1=buildTableModel(rs);
