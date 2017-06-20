@@ -5,7 +5,9 @@
  */
 package View;
 
-import Controller.GestionController;
+import Controller.*;
+import java.awt.Font;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
@@ -23,37 +25,50 @@ public class JIntImpresion extends javax.swing.JInternalFrame {
      * Creates new form JIntImpresion
      */
     GestionController GC = new GestionController();
-       
-    
+    ImpresionController IC = new ImpresionController();
+           
     private void AmountEnter(java.awt.event.MouseEvent evt)
     {
         int row = JTableBuscar.rowAtPoint(evt.getPoint());
         int col = JTableBuscar.columnAtPoint(evt.getPoint());
         Integer _idtype=-1;
+        Double _price;
+        Double _result;
+        String _name;
         
         try
         {
             if (row >= 0 && col >= 0) 
             {
-                _idtype = (Integer) JTableBuscar.getValueAt(row, 0);                   
+                _idtype = (Integer) JTableBuscar.getValueAt(row, 0);       
+                _name = JTableBuscar.getValueAt(row, 1).toString();
+                _price= Double.parseDouble(JTableBuscar.getValueAt(row, 2).toString());                                                               
+                String _cantidad = JOptionPane.showInputDialog( "CANTIDAD DE IMPRESIONES:");
                 
-                String cantidad = JOptionPane.showInputDialog( "CANTIDAD DE IMPRESIONES:");
-                if (cantidad !=null)
+                if (_cantidad !=null)
                 {
-                    int amount = Integer.parseInt(cantidad.trim());
-                    if (amount > 0)
-                    {
-                        JOptionPane.showMessageDialog(null, "Cantidad: "+ amount, "Information", JOptionPane.INFORMATION_MESSAGE);
-                    
-                    } else if(amount ==0)
+                    int _amount = Integer.parseInt(_cantidad.trim());
+                    if (_amount > 0)
+                    {   
+                        _result = IC.create(_idtype, _amount, _price, true, "");
+                        if (_result > 0)
+                        {                               
+                            JLabel label = new JLabel("Cantidad: "+_amount+"   "+ _name+"\r\n  "+" Q. "+ _result);                            
+                            label.setFont(new Font("Arial", Font.BOLD, 24));                            
+                            JOptionPane.showMessageDialog(null, label , "RESULTADO", JOptionPane.INFORMATION_MESSAGE);
+                        }                        
+                    } 
+                    else if(_amount ==0)
                     {
                         JOptionPane.showMessageDialog(null, "Ingrese una cantidad mayor a CERO", "Error", JOptionPane.INFORMATION_MESSAGE);
                     }
                 }                                
             }                
         }
-       catch (NumberFormatException nfe) {
-            System.err.println(nfe.getMessage());
+       catch (NumberFormatException nfe) 
+        {            
+             JOptionPane.showMessageDialog(null, nfe.getMessage(), "Error - View",
+                                   JOptionPane.ERROR_MESSAGE);
         }
     
     }
@@ -63,9 +78,13 @@ public class JIntImpresion extends javax.swing.JInternalFrame {
         initComponents();
         JTableBuscar.setRowSorter(null);
         
+        //Hide the _idtype
         JTableBuscar.getColumnModel().getColumn(0).setMinWidth(0);
         JTableBuscar.getColumnModel().getColumn(0).setMaxWidth(0);
         
+        //Hide the _idtype
+        JTableBuscar.getColumnModel().getColumn(3).setMinWidth(0);
+        JTableBuscar.getColumnModel().getColumn(3).setMaxWidth(0);
         
        // JTableBuscar.setRowSorter(sorter);
         
@@ -135,7 +154,8 @@ public class JIntImpresion extends javax.swing.JInternalFrame {
         jTxtBuscar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
         JTableBuscar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        JTableBuscar.setModel(GC.read_search());
+        JTableBuscar.setModel(GC.read());
+        JTableBuscar.setColumnSelectionAllowed(true);
         JTableBuscar.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         JTableBuscar.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(JTableBuscar);
@@ -162,9 +182,9 @@ public class JIntImpresion extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTxtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTxtBuscar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))

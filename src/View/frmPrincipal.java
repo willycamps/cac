@@ -82,8 +82,7 @@ public class frmPrincipal extends JFrame
         menu.setMnemonic(KeyEvent.VK_I);
         menuBar.add(menu2);
         
-        JMenu menu3 = new JMenu("About");
-        //menu.setMnemonic(KeyEvent.VK_I);
+        JMenu menu3 = new JMenu("About");                
         menuBar.add(menu3);
         
         //Set up the first menu item.
@@ -113,7 +112,16 @@ public class frmPrincipal extends JFrame
         menuItem1.setActionCommand("impresiones");
         menuItem1.addActionListener(this);
         menu1.add(menuItem1);
-                
+                                
+        
+        //
+        JMenuItem menuItem12 = new JMenuItem("Listado de Impresiones");
+        menuItem12.setMnemonic(KeyEvent.VK_L);
+        menuItem12.setAccelerator(KeyStroke.getKeyStroke(
+                KeyEvent.VK_L, ActionEvent.ALT_MASK));
+        menuItem12.setActionCommand("Listimpresiones");
+        menuItem12.addActionListener(this);
+        menu1.add(menuItem12);
         
         return menuBar;
     }
@@ -128,15 +136,41 @@ public class frmPrincipal extends JFrame
                 //new
                 createFrame();
                 break;
+                
             case "impresiones":
                 createJImpresionFrame();
                 break;
-            default:
-                //quit
                 
+            case "about":
+                createAboutFrame();
+                break;
+                
+            case "Listimpresiones":
+                
+                break;
+                
+            default:                                
                 quit();
                 break;
         }
+        
+    }
+    
+    protected void createAboutFrame()
+    {
+         JIntAbout frame = new JIntAbout();
+        
+        Dimension desktopSize = desktop.getSize();
+        
+        Dimension jInternalFrameSize = frame.getSize();
+        frame.setLocation((desktopSize.width - jInternalFrameSize.width)/2,
+        (desktopSize.height- jInternalFrameSize.height)/2);
+        
+        frame.setVisible(true); //necessary as of 1.3
+        desktop.add(frame);
+        try {
+            frame.setSelected(true);
+        } catch (java.beans.PropertyVetoException e) {}
         
     }
 

@@ -45,38 +45,7 @@ public class GestionModel
             return false;            
         }
      }
-     
-     public DefaultTableModel read_search ()
-     {
-        Statement stmt = null;
-        DefaultTableModel model1 = null;                
-        
-        try 
-        {
-            con = model.createConnection();
-            // create a Statement from the connection
-            stmt = con.createStatement();
-            
-            String sql = "SELECT _idtype, name, price FROM type";
-            ResultSet rs = stmt.executeQuery(sql);
-            
-            model1=buildTableModel(rs);
-            model1.fireTableDataChanged();
-          
-            rs.close();
-            stmt.close();                        
-            con.close();                        
-            
-        } 
-        catch (Exception er) 
-        {
-            //return false;
-            System.out.print("PROBLEM!!!: "+er.getMessage());
-        }                   
-         return model1;
-     }       
-             
-     
+ 
       public DefaultTableModel read ()
      {
         Statement stmt = null;
